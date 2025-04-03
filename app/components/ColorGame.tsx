@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useNotification } from "@coinbase/onchainkit/minikit";
 import { useAccount } from "wagmi";
-import { encodeAbiParameters, type Address as AddressType } from "viem";
+import type { Address as AddressType } from "viem";
 
 // Schema UID for our Color Match attestations
 const SCHEMA_UID =
@@ -36,6 +36,15 @@ const generateRandomColor = () => {
   return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0")}`;
 };
 
+// Type for attestation data
+type AttestationData = {
+  decodedDataJson: string;
+  attester: string;
+  time: string;
+  id: string;
+  txid: string;
+};
+
 // Fetch attestations (high scores) from the blockchain
 async function fetchLastAttestations() {
   const query = `
@@ -62,12 +71,12 @@ async function fetchLastAttestations() {
 
   const { data } = await response.json();
   return (data?.attestations ?? [])
-    .map((attestation: any) => {
+    .map((attestation: AttestationData) => {
       const parsedData = JSON.parse(attestation?.decodedDataJson ?? "[]");
       const pattern = /(0x[a-fA-F0-9]{40}) scored (\d+) on color match/;
       const match = parsedData[0]?.value?.value?.match(pattern);
       if (match) {
-        const [_, address, score] = match;
+        const [, address, score] = match;
         return {
           score: parseInt(score),
           address,
@@ -103,7 +112,7 @@ const ColorGame = () => {
     setTargetColor(newTargetColor);
     
     // Create tiles with random colors, ensuring at least one matches the target
-    let newTiles = Array(GRID_SIZE * GRID_SIZE).fill("").map(() => generateRandomColor());
+    const newTiles = Array(GRID_SIZE * GRID_SIZE).fill("").map(() => generateRandomColor());
     
     // Ensure at least one tile matches the target color
     const randomIndex = Math.floor(Math.random() * newTiles.length);
