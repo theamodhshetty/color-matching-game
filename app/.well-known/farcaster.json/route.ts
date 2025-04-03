@@ -1,22 +1,31 @@
-export async function GET() {
-  const URL = process.env.NEXT_PUBLIC_URL;
+export const dynamic = 'force-dynamic';
 
-  return Response.json({
+export async function GET() {
+  const URL = process.env.NEXT_PUBLIC_URL || "https://color-matching-game.vercel.app";
+
+  const data = {
     accountAssociation: {
       header: process.env.FARCASTER_HEADER,
       payload: process.env.FARCASTER_PAYLOAD,
       signature: process.env.FARCASTER_SIGNATURE,
     },
     frame: {
-      version: process.env.NEXT_PUBLIC_VERSION,
-      name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
+      version: "vNext",
+      name: "Color Match Game",
+      iconUrl: `${URL}/api/frames/images/colormatch`,
       homeUrl: URL,
-      iconUrl: process.env.NEXT_PUBLIC_ICON_URL,
-      imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
-      buttonTitle: `Launch ${process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}`,
-      splashImageUrl: process.env.NEXT_PUBLIC_SPLASH_IMAGE_URL,
-      splashBackgroundColor: `#${process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR}`,
-      webhookUrl: `${URL}/api/webhook`,
+      imageUrl: `${URL}/api/frames/images/intro`,
+      buttonTitle: "Play Color Match",
+      splashImageUrl: `${URL}/api/frames/images/colormatch`,
+      splashBackgroundColor: "#F5F5F5",
+      webhookUrl: `${URL}/api/frames`,
+    },
+  };
+
+  return new Response(JSON.stringify(data), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     },
   });
 }

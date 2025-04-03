@@ -6,6 +6,19 @@ const nextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
+  
+  // Ensure .well-known files are properly handled
+  async headers() {
+    return [
+      {
+        source: '/.well-known/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Content-Type', value: 'application/json' }
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

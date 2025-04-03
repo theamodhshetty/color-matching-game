@@ -1,0 +1,13 @@
+{
+  "frame": {
+    "version": "vNext",
+    "name": "Color Match Game",
+    "iconUrl": "https://color-matching-game.vercel.app/api/frames/images/colormatch",
+    "homeUrl": "https://color-matching-game.vercel.app",
+    "imageUrl": "https://color-matching-game.vercel.app/api/frames/images/intro",
+    "buttonTitle": "Play Color Match",
+    "splashImageUrl": "https://color-matching-game.vercel.app/api/frames/images/colormatch",
+    "splashBackgroundColor": "#F5F5F5",
+    "webhookUrl": "https://color-matching-game.vercel.app/api/frames"
+  }
+} 
