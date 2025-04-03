@@ -9,22 +9,37 @@ type FrameRequest = {
     messageBytes?: string;
   };
   state?: {
-    serialized?: Record<string, any>;
+    serialized?: Record<string, unknown>;
   };
 };
+
+// Define our frame state type
+interface GameState {
+  gameState: string;
+  targetColor?: string;
+  score?: number;
+}
 
 export async function POST(req: NextRequest) {
   const body: FrameRequest = await req.json();
   
   // Extract button clicked and state data
   const buttonIndex = body.untrustedData?.buttonIndex || 0;
-  const frameData = body.state?.serialized || {};
+  // Safely handle the state data
+  const serializedState = body.state?.serialized || {};
+  
+  // Parse the state with proper type handling
+  const frameData: GameState = {
+    gameState: typeof serializedState.gameState === 'string' ? serializedState.gameState : 'intro',
+    targetColor: typeof serializedState.targetColor === 'string' ? serializedState.targetColor : undefined,
+    score: typeof serializedState.score === 'number' ? serializedState.score : undefined
+  };
   
   // Handle different game states
-  let gameState = frameData.gameState || 'intro';
-  let score = frameData.score || 0;
-  let targetColor = frameData.targetColor || '';
-  let selectedTile = buttonIndex ? buttonIndex - 1 : -1;
+  let gameState: string = frameData.gameState;
+  let score: number = typeof frameData.score === 'number' ? frameData.score : 0;
+  let targetColor: string = typeof frameData.targetColor === 'string' ? frameData.targetColor : '';
+  const selectedTile = buttonIndex ? buttonIndex - 1 : -1;
   
   // Handle state transitions
   switch (gameState) {
@@ -114,7 +129,7 @@ function generateFrameHtml({
 }: { 
   buttons: string[], 
   image: string, 
-  state: Record<string, any> 
+  state: Record<string, unknown> 
 }) {
   const postUrl = `${process.env.NEXT_PUBLIC_URL}/api/frames`;
   
