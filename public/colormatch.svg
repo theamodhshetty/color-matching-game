@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#F5F5F5" stroke="#0052FF" stroke-width="4"/>
+  
+  <!-- Color tiles in a grid -->
+  <rect x="40" y="40" width="40" height="40" rx="5" fill="#FF5252"/>
+  <rect x="40" y="90" width="40" height="40" rx="5" fill="#FFB74D"/>
+  <rect x="40" y="140" width="40" height="40" rx="5" fill="#0052FF"/>
+  
+  <rect x="90" y="40" width="40" height="40" rx="5" fill="#64DD17"/>
+  <rect x="90" y="90" width="40" height="40" rx="5" fill="#AA00FF"/>
+  <rect x="90" y="140" width="40" height="40" rx="5" fill="#FF5252"/>
+  
+  <rect x="140" y="40" width="40" height="40" rx="5" fill="#0052FF"/>
+  <rect x="140" y="90" width="40" height="40" rx="5" fill="#AA00FF"/>
+  <rect x="140" y="140" width="40" height="40" rx="5" fill="#64DD17"/>
+  
+  <!-- Highlight effects -->
+  <rect x="90" y="90" width="40" height="40" rx="5" stroke="#FFFFFF" stroke-width="2" filter="drop-shadow(0 0 3px rgba(255, 255, 255, 0.8))"/>
+</svg> 
